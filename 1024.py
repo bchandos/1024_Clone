@@ -1,6 +1,7 @@
 from random import randint, random
-game_board = [[None for cell in range(4)] for cell in range(4)]
+game_board = [[None for cell in range(4)] for row in range(4)]
 GAME_SCORE = 0
+
 
 def spawn_number():
     # pick a random spot on the board
@@ -8,7 +9,7 @@ def spawn_number():
     random_col = randint(0, 3)
     # determine if it's available for spawning
     if not game_board[random_row][random_col]:
-        if random() > 0.8:
+        if random() > 0.9:
             new_tile = 4
         else:
             new_tile = 2
@@ -17,8 +18,9 @@ def spawn_number():
     else:
         return False
 
+
 def move_right():
-    """ Move all tiles to the right """
+    """ Move all tiles to the right and process scoring """
     global GAME_SCORE
     for row in game_board:
         # Sort the row with None as 0 and all tiles as 1
@@ -26,7 +28,7 @@ def move_right():
         row.sort(key=lambda x: 0 if x is None else 1)
         # Iterate backwards over list to find identical tiles and combine
         # Insert blank tiles at beginning of list
-        for cell_index in range(3,0,-1):
+        for cell_index in range(3, 0, -1):
             if row[cell_index] and row[cell_index] == row[cell_index-1]:
                 # if the cell is not None and equal in value to the cell to its left
                 # combine the values
@@ -38,8 +40,9 @@ def move_right():
                 # insert a blank cell at the beginning of the row
                 row.insert(0, None)
 
+
 def move_left():
-    """ Move all tiles to the left """
+    """ Move all tiles to the left and process scoring """
     global GAME_SCORE
     for row in game_board:
         # Sort the row with None as 0 and all tiles as 1, reversed
@@ -59,8 +62,9 @@ def move_left():
                 # insert a blank cell at the end of the row
                 row.append(None)
 
+
 def move_down():
-    """ Move all tiles down """
+    """ Move all tiles down and process scoring """
     global GAME_SCORE
     for col_index in range(4):
         vertical_row = []
@@ -74,7 +78,7 @@ def move_down():
         # Insert blank tiles at beginning of list
         for cell_index in range(3, 0, -1):
             if vertical_row[cell_index] and vertical_row[cell_index] == vertical_row[cell_index - 1]:
-                # if the cell is not None and equal in value to the cell to its left
+                # if the cell is not None and equal in value to the cell above it
                 # combine the values
                 vertical_row[cell_index] *= 2
                 # add the combined value to the total score
@@ -87,8 +91,9 @@ def move_down():
             # We convert each processed list back into the column
             game_board[row_index][col_index] = vertical_row[row_index]
 
+
 def move_up():
-    """ Move all tiles up """
+    """ Move all tiles up and process scoring """
     global GAME_SCORE
     for col_index in range(4):
         vertical_row = []
@@ -102,7 +107,7 @@ def move_up():
         # Insert blank tiles at beginning of list
         for cell_index in range(3):
             if vertical_row[cell_index] and vertical_row[cell_index] == vertical_row[cell_index + 1]:
-                # if the cell is not None and equal in value to the cell to its right
+                # if the cell is not None and equal in value to the cell below it
                 # combine the values
                 vertical_row[cell_index] *= 2
                 # add the combined value to the total score
@@ -114,6 +119,7 @@ def move_up():
         for row_index in range(4):
             # We convert each processed list back into the column
             game_board[row_index][col_index] = vertical_row[row_index]
+
 
 def is_game_over():
     """ Determines whether the game is over by first checking
@@ -140,6 +146,7 @@ def is_game_over():
                 return False
     return True
 
+
 def is_board_full():
     """ Checks each row for empty cells """
     for row in game_board:
@@ -147,25 +154,26 @@ def is_board_full():
             return False
     return True
 
+
 def main():
     # establish first game pieces
     spawn_number()
-
     while not is_game_over():
         if not is_board_full():
             # As long a space is available, we want to add a piece
-            while not spawn_number(): pass
+            while not spawn_number():
+                pass
         # Randomly select a move
         random_move = randint(1, 4)
         if random_move == 1:
-             move_up()
+            move_up()
         elif random_move == 2:
-             move_right()
+            move_right()
         elif random_move == 3:
-             move_down()
+            move_down()
         elif random_move == 4:
-             move_left()
-
+            move_left()
+    # The game must be over and so we print the board and final score
     for row in game_board:
         print(*row, sep='\t')
     print(GAME_SCORE)
