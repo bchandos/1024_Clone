@@ -2,10 +2,11 @@ import tkinter as tk
 import ten_twentyfour as ten24
 import math
 
-class Game(tk.Frame):
+class GameGUI(tk.Frame):
 
     def __init__(self, master=None):
         super().__init__(master)
+        ten24.game_board_setup()
         self.cells = []
         self.grid()
         self.master.bind('<Left>', self.left_key)
@@ -16,6 +17,8 @@ class Game(tk.Frame):
         self.draw()
 
     def setup(self):
+        self.score_label = tk.Label(self.master, text='Score: {}'.format(ten24.GAME_SCORE), width=40, height=5, relief='raised')
+        self.score_label.grid(row=5, columnspan = 4)
         for row_index, row in enumerate(ten24.game_board):
             for cell_index, cell in enumerate(row):
                 c = tk.Label(self.master, text=cell, width=10, height=5, relief='groove')
@@ -28,33 +31,27 @@ class Game(tk.Frame):
             col_index = int(cell_index - (row_index * 4))
             cell.configure(text='')
             cell.configure(text=ten24.game_board[row_index][col_index])
-
-        # for row_index, row in enumerate(ten24.game_board):
-        #     for cell_index, cell in enumerate(row):
-        #         self.cells[row_index + (cell_index * len(row))].configure(text=cell)
-        self.after(100, self.draw)
+        self.score_label.configure(text=ten24.GAME_SCORE)
+        if not ten24.GAME_OVER:
+            self.after(100, self.draw)
+        else:
+            self.quit()
 
     def left_key(self, event):
-        ten24.move_left()
-        while not ten24.spawn_number():
-            pass
+        ten24.play_game('left')
 
     def right_key(self, event):
-        ten24.move_right()
-        while not ten24.spawn_number():
-            pass
+        ten24.play_game('right')
 
     def up_key(self, event):
-        ten24.move_up()
-        while not ten24.spawn_number():
-            pass
+        ten24.play_game('up')
 
     def down_key(self, event):
-        ten24.move_down()
-        while not ten24.spawn_number():
-            pass
+        ten24.play_game('down')
 
 root = tk.Tk()
-app = Game(master=root)
+app = GameGUI(master=root)
 app.mainloop()
+
+print('GAME OVER!')
 print(ten24.GAME_SCORE)

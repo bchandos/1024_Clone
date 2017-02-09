@@ -1,6 +1,7 @@
 from random import randint, random
 game_board = [[None for cell in range(4)] for row in range(4)]
 GAME_SCORE = 0
+GAME_OVER = False
 
 
 def spawn_number():
@@ -155,31 +156,29 @@ def is_board_full():
     return True
 
 
-def main():
-    # establish first game pieces
-    spawn_number()
-    while not is_game_over():
-        if not is_board_full():
-            # As long a space is available, we want to add a piece
-            while not spawn_number():
-                pass
-        # Randomly select a move
-        random_move = randint(1, 4)
-        if random_move == 1:
-            move_up()
-        elif random_move == 2:
-            move_right()
-        elif random_move == 3:
-            move_down()
-        elif random_move == 4:
-            move_left()
-    # The game must be over and so we print the board and final score
-    for row in game_board:
-        print(*row, sep='\t')
-    print(GAME_SCORE)
+def play_game(move):
+    global GAME_OVER
+    if move == 'up':
+        move_up()
+    elif move == 'right':
+        move_right()
+    elif move == 'down':
+        move_down()
+    elif move == 'left':
+        move_left()
+    if not is_board_full():
+        # As long a space is available, we want to add a piece
+        while not spawn_number():
+            pass
+    if is_game_over():
+        GAME_OVER = True
 
 if __name__ == "__main__":
     # execute only if run as a script
     main()
 
-spawn_number()
+def game_board_setup():
+    global GAME_OVER
+    GAME_OVER = False
+    spawn_number()
+    spawn_number()
