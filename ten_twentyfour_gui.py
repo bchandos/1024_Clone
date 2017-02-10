@@ -3,10 +3,12 @@ from tkinter import messagebox
 import ten_twentyfour as ten24
 from math import floor
 
+
 class GameGUI(tk.Frame):
     """ Creates 1024 game UI and define keybindings
         Game logic is handled in ten_twentyfour.py
         Extends the tkinter Frame object """
+
     def __init__(self, master=None):
         # initialize the tk.Frame object with same root
         super().__init__(master)
@@ -19,7 +21,6 @@ class GameGUI(tk.Frame):
         self.master.bind('<Right>', self.right_key)
         self.master.bind('<Up>', self.up_key)
         self.master.bind('<Down>', self.down_key)
-        self.master.bind('<Escape>', self.quit)
         self.setup()
         self.draw()
 
@@ -39,7 +40,7 @@ class GameGUI(tk.Frame):
         # Main drawing loop. Iterates over list of labels,
         # clears current values, looks up new value in game_board
         for cell_index, cell in enumerate(self.cells):
-            row_index = int(floor(cell_index/4))
+            row_index = int(floor(cell_index / 4))
             col_index = int(cell_index - (row_index * 4))
             cell.configure(text='')
             cell.configure(text=ten24.game_board[row_index][col_index])
@@ -48,7 +49,7 @@ class GameGUI(tk.Frame):
             self.after(100, self.draw)
         else:
             messagebox.showinfo('Game Over!', 'Your game has ended and you are something of a failure. '
-                                                   f'Your final score was {ten24.GAME_SCORE}!')
+                                              f'Your final score was {ten24.GAME_SCORE}!')
             self.quit()
 
     def left_key(self, event):
@@ -63,10 +64,8 @@ class GameGUI(tk.Frame):
     def down_key(self, event):
         ten24.play_game('down')
 
+
 root = tk.Tk()
 root.title('Totally Not 2048')
 app = GameGUI(master=root)
 app.mainloop()
-
-print('GAME OVER!')
-print(ten24.GAME_SCORE)
