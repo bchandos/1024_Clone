@@ -49,7 +49,7 @@ def move_left():
         # Sort the row with None as 0 and all tiles as 1, reversed
         # Sort is stable and so tiles stay in order
         row.sort(key=lambda x: 0 if x is None else 1, reverse=True)
-        # Iterate backwards over list to find identical tiles and combine
+        # Iterate over list to find identical tiles and combine
         # Insert blank tiles at beginning of list
         for cell_index in range(3):
             if row[cell_index] and row[cell_index] == row[cell_index+1]:
@@ -101,10 +101,10 @@ def move_up():
         for row_index in range(4):
             # We convert each column to a list for ease of processing
             vertical_row.append(game_board[row_index][col_index])
-        # Sort the row with None as 0 and all tiles as 1, reversed
+        # Sort the row with None as 0 and populated tiles as 1, reversed
         # Sort is stable and so tiles stay in order
-            vertical_row.sort(key=lambda x: 0 if x is None else 1, reverse=True)
-        # Iterate backwards over list to find identical tiles and combine
+        vertical_row.sort(key=lambda x: 0 if x is None else 1, reverse=True)
+        # Iterate over list to find identical tiles and combine
         # Insert blank tiles at beginning of list
         for cell_index in range(3):
             if vertical_row[cell_index] and vertical_row[cell_index] == vertical_row[cell_index + 1]:
@@ -173,12 +173,15 @@ def play_game(move):
     if is_game_over():
         GAME_OVER = True
 
-if __name__ == "__main__":
-    # execute only if run as a script
-    main()
+def main():
+    pass
 
 def game_board_setup():
     global GAME_OVER
     GAME_OVER = False
     spawn_number()
     spawn_number()
+
+if __name__ == "__main__":
+    # execute only if run as a script
+    main()

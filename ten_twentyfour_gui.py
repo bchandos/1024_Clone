@@ -26,7 +26,7 @@ class GameGUI(tk.Frame):
 
     def setup(self):
         # Setup the window by creating a 4x4 grid, and adding each tile as tk.Label
-        # to list, while populating with initial values of game_board.
+        # object to list, while populating with initial values of game_board.
         for row_index, row in enumerate(ten24.game_board):
             for cell_index, cell in enumerate(row):
                 c = tk.Label(self.master, text=cell, width=10, height=5, relief='groove')
@@ -64,7 +64,7 @@ class GameGUI(tk.Frame):
     def down_key(self, event):
         ten24.play_game('down')
 
-
+# Create window and frame instance
 root = tk.Tk()
 root.title('Totally Not 2048')
 app = GameGUI(master=root)
