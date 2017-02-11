@@ -177,7 +177,11 @@ def main():
     pass
 
 def game_board_setup():
+    global game_board
+    global GAME_SCORE
     global GAME_OVER
+    game_board = [[None for cell in range(4)] for row in range(4)]
+    GAME_SCORE = 0
     GAME_OVER = False
     spawn_number()
     spawn_number()

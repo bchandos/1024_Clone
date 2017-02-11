@@ -32,9 +32,15 @@ class GameGUI(tk.Frame):
                 c = tk.Label(self.master, text=cell, width=10, height=5, relief='groove')
                 c.grid(row=row_index, column=cell_index)
                 self.cells.append(c)
+        self.new_game_btn = tk.Button(self.master, text='New Game', command=ten24.game_board_setup)
+        self.new_game_btn.grid(row=5, column=0, columnspan=1)
+
+        quit_game_btn = tk.Button(self.master, text='Quit Game', command=root.destroy)
+        quit_game_btn.grid(row=5, column=1, columnspan=1)
+
         self.score_label = tk.Label(self.master, text='Score: {}'.format(ten24.GAME_SCORE),
-                                    width=40, height=5, relief='raised')
-        self.score_label.grid(row=5, columnspan=4)
+                                    width=20, height=5, relief='raised')
+        self.score_label.grid(row=5, column=2, columnspan=2)
 
     def draw(self):
         # Main drawing loop. Iterates over list of labels,
@@ -44,7 +50,7 @@ class GameGUI(tk.Frame):
             col_index = int(cell_index - (row_index * 4))
             cell.configure(text='')
             cell.configure(text=ten24.game_board[row_index][col_index])
-        self.score_label.configure(text=ten24.GAME_SCORE)
+        self.score_label.configure(text='Score: {}'.format(ten24.GAME_SCORE))
         if not ten24.GAME_OVER:
             self.after(100, self.draw)
         else:
