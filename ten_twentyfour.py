@@ -1,4 +1,5 @@
 from random import randint, random
+import copy
 game_board = [[None for cell in range(4)] for row in range(4)]
 GAME_SCORE = 0
 GAME_OVER = False
@@ -158,6 +159,8 @@ def is_board_full():
 
 def play_game(move):
     global GAME_OVER
+    state_change = True
+    prev_game_board = copy.deepcopy(game_board)
     if move == 'up':
         move_up()
     elif move == 'right':
@@ -166,8 +169,10 @@ def play_game(move):
         move_down()
     elif move == 'left':
         move_left()
-    if not is_board_full():
-        # As long a space is available, we want to add a piece
+    if prev_game_board == game_board:
+        state_change = False
+    if state_change and not is_board_full():
+        # As long a space is available and the board has changed, we want to add a piece
         while not spawn_number():
             pass
     if is_game_over():
