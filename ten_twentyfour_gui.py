@@ -13,7 +13,18 @@ class GameGUI(tk.Frame):
         # initialize the tk.Frame object with same root
         super().__init__(master)
         ten24.game_board_setup()
-        # one-dimensional list containing tk.Lable widgets
+
+        self.color_table = {None: "#ffffff",
+                            2: "#ff5733",
+                            4: "#ffff33",
+                            8: "#9cff33",
+                            16: "#33ffdd",
+                            32: "#339fff",
+                            64: "#b533ff",
+                            128: "#ff33d1",
+                            256: "#ff3364",
+                            512: "#04ff00"}
+        # one-dimensional list containing tk.Label widgets
         self.cells = []
         self.score_label = None
         self.grid()
@@ -50,6 +61,7 @@ class GameGUI(tk.Frame):
             col_index = int(cell_index - (row_index * 4))
             cell.configure(text='')
             cell.configure(text=ten24.game_board[row_index][col_index])
+            cell.configure(bg=self.color_table.get(ten24.game_board[row_index][col_index],'#ffffff'))
         self.score_label.configure(text='Score: {}'.format(ten24.GAME_SCORE))
         if not ten24.GAME_OVER:
             self.after(100, self.draw)
